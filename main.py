@@ -16,12 +16,18 @@ def requestHandler(data):
     endpoint = header[1]
 
     content = "404 NOT FOUND"
+    status = "404 Not Found"
 
-    if endpoint == "/how":
-        content = "Thats How"
+    if endpoint == "/check":
+        content = "Working Correctly!"
+        status = "200 OK"
+
+    elif endpoint == "/hi":
+        content = "Hi back!"
+        status = "200 OK"
 
     response = (
-        "HTTP/1.1 200 OK\r\n"
+        f"HTTP/1.1 {status}\r\n"
         "Content-Type: text/plain\r\n"
         f"Content-Length: {len(content)}\r\n"
         "\r\n"
@@ -43,7 +49,7 @@ with server as s:
             data = conn.recv(1024)
 
             if not data:
-                break
+                continue
 
             response = requestHandler(data)
 
